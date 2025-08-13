@@ -1,6 +1,6 @@
 # DevOps Challenge
 
-A sample prohect that deploys a minimal **ASP.NET Core** app to **AWS Fargate** behind an **Application Load Balancer**, using **AWS CDK (TypeScript)** and **GitHub Actions** for CI/CD.
+A sample project that deploys a minimal **ASP.NET Core** app to **AWS Fargate** behind an **Application Load Balancer**, using **AWS CDK (TypeScript)** and **GitHub Actions** for CI/CD.
 
 ---
 
