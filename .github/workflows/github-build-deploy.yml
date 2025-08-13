@@ -6,7 +6,6 @@ on:
 
 env:
   ECR_REPOSITORY: aspnet-app
-  IMAGE_TAG: latest
 
 jobs:
   build:
@@ -14,6 +13,8 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    outputs:
+      image_tag: ${{ steps.tag.outputs.image_tag }}
     steps:
       - uses: actions/checkout@v4
       
@@ -40,6 +41,7 @@ jobs:
         run: |
           IMAGE_TAG="$(date -u +%Y%m%dT%H%M%SZ)"
           echo "IMAGE_TAG=$IMAGE_TAG" >> "$GITHUB_ENV"
+          echo "image_tag=$IMAGE_TAG" >> "$GITHUB_OUTPUT"
           echo "📦 Using image tag: $IMAGE_TAG"
 
       - name: Remove Tag from previous image
@@ -59,7 +61,6 @@ jobs:
           provenance: false
           platforms: linux/arm64
           tags: |
-            ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest 
             ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}   
 
   deploy:
@@ -96,5 +97,5 @@ jobs:
         working-directory: infrastructure
 
       - name: Deploy
-        run: cdk deploy --require-approval never --all -c imageTag=${{ env.IMAGE_TAG }}
+        run: cdk deploy --require-approval never --all -c imageTag=${{ needs.build.outputs.image_tag }}
         working-directory: infrastructure

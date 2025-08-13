@@ -78,7 +78,7 @@ export class AppService extends Construct {
       portMappings: [{ protocol: Protocol.TCP, containerPort: this.containerPort }],
       environment: {},
       healthCheck: {
-        command: ['CMD-SHELL', 'echo hello'],
+        command: ['CMD-SHELL', 'curl -f http://localhost:8080/healthz || exit 1'],
         interval: Duration.seconds(30),
         timeout: Duration.seconds(5),
         retries: 3,
