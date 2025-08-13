@@ -93,7 +93,10 @@ export class AppStack extends Stack {
       listener: props.albListener,
       priority: 101,
       conditions: [ListenerCondition.pathPatterns(['/*'])],
-      action: ListenerAction.forward([blueTg]),
+      action: ListenerAction.weightedForward([
+        { targetGroup: blueTg, weight: 100 },
+        { targetGroup: greenTg, weight: 0 },
+      ]),
     });
 
     props.albListener.addAction('Default404Action', {
@@ -116,7 +119,7 @@ export class AppStack extends Stack {
         'elasticloadbalancing:DeleteRule',
         'elasticloadbalancing:SetRulePriorities',
       ],
-      resources: [props.albListener.listenerArn],
+      resources: [props.albListener.listenerArn, mainRule.listenerRuleArn],
     }));
 
     elbChangeRole.addToPolicy(new PolicyStatement({
