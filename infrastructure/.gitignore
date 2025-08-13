@@ -1,0 +1,22 @@
+# Node and dependency artifacts
+node_modules
+dist
+
+# Webpack and TypeScript output
+*.js
+*.d.ts
+
+# Keep specific JavaScript config files
+!webpack.config.js
+!jest.config.js
+!.eslintrc.js
+
+# Logs
+*.log
+
+# CDK and AWS CloudFormation
+.cdk.staging
+cdk.out
+
+# Ignore zip files, if you create packaged assets
+*.zip
