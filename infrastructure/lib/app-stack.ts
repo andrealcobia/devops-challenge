@@ -56,7 +56,7 @@ export class AppStack extends Stack {
       vpcSubnets: props.vpc.selectSubnets({ subnetGroupName: 'App' }),
       vpc: props.vpc,
       kmsKey,
-      desiredCount: 0,
+      desiredCount: 1,
     });
     this.fargateService = appService.service;
 
